@@ -24,7 +24,6 @@ A personalized GMAT preparation quiz application with daily streak tracking.
 1. Clone the repository
 
 ```
-bash
 git clone https://github.com/yourusername/wifey-gmat-prep.git
 cd wifey-gmat-prep
 ```
@@ -32,14 +31,12 @@ cd wifey-gmat-prep
 2. Install dependencies
 
 ```
-bash
 npm install
 ```
 
 3. Start the development server
 
 ```
-bash
 npm run dev
 ```
 
@@ -50,3 +47,20 @@ npm run dev
 1. Login to the application
 2. Answer questions to build your streak
 3. View your streak progress and best streaks
+
+## Deployment
+
+### Deploy on Vercel
+
+The easiest way to deploy this app is to use [Vercel](https://vercel.com):
+
+1. Push your code to GitHub
+2. Go to [Vercel](https://vercel.com)
+3. Sign up/login with GitHub
+4. Click "Add New Project"
+5. Import your repository
+6. Click "Deploy"
+
+Your app will be automatically deployed and you'll get a URL like: `https://your-app.vercel.app`
+
+Vercel will automatically redeploy when you push changes to your repository.
