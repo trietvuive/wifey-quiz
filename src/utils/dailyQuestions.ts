@@ -7,17 +7,22 @@ function getRandomQuestions(count: number): Question[] {
 }
 
 export function getDailyQuestions(): Question[] {
+  console.log('All questions:', allQuestions); // Debug log
+
   const today = new Date().toDateString();
   const stored = localStorage.getItem('dailyQuestions');
   
   if (stored) {
     const { date, questions } = JSON.parse(stored);
     if (date === today) {
+      console.log('Returning stored questions:', questions); // Debug log
       return questions;
     }
   }
 
   const dailyQuestions = getRandomQuestions(4);
+  console.log('New daily questions:', dailyQuestions); // Debug log
+  
   localStorage.setItem('dailyQuestions', JSON.stringify({
     date: today,
     questions: dailyQuestions

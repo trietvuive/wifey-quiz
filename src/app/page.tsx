@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { getDailyQuestions } from '@/utils/dailyQuestions';
-import { Question } from '@/types/quiz';
+import { Question, EloHistory } from '@/types/quiz';
 import QuizCard from '@/components/QuizCard';
 import Results from '@/components/Results';
 import { QuizState } from '@/types/quiz';
 import StreakDisplay from '@/components/StreakDisplay';
 import Logo from '@/components/Logo';
+import QuizProgress from '@/components/QuizProgress';
+import { calculateNewElo, getInitialElo, updateEloHistory } from '@/utils/eloCalculator';
 
 export default function Home() {
   const [dailyQuestions, setDailyQuestions] = useState<Question[]>([]);
@@ -15,16 +17,51 @@ export default function Home() {
     currentQuestionIndex: 0,
     score: 0,
     showResults: false,
+    eloRating: getInitialElo()
   });
+  const [ratingHistory, setRatingHistory] = useState<EloHistory[]>([]);
 
   useEffect(() => {
-    setDailyQuestions(getDailyQuestions());
+    const questions = getDailyQuestions();
+    console.log('Setting daily questions:', questions); // Debug log
+    setDailyQuestions(questions);
   }, []);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('eloRating');
+    if (stored) {
+      const { history } = JSON.parse(stored);
+      setRatingHistory(history);
+    }
+  }, [quizState.eloRating]);
 
   const handleAnswer = (isCorrect: boolean) => {
     setTimeout(() => {
+      const currentQuestion = dailyQuestions[quizState.currentQuestionIndex];
+      const newElo = calculateNewElo(
+        quizState.eloRating,
+        currentQuestion.difficulty,
+        isCorrect
+      );
+
+      updateEloHistory(
+        quizState.eloRating,
+        newElo,
+        currentQuestion.difficulty,
+        isCorrect
+      );
+
       if (isCorrect) {
-        setQuizState(prev => ({ ...prev, score: prev.score + 1 }));
+        setQuizState(prev => ({ 
+          ...prev, 
+          score: prev.score + 1,
+          eloRating: newElo
+        }));
+      } else {
+        setQuizState(prev => ({ 
+          ...prev,
+          eloRating: newElo
+        }));
       }
 
       if (quizState.currentQuestionIndex < dailyQuestions.length - 1) {
@@ -43,6 +80,7 @@ export default function Home() {
       currentQuestionIndex: 0,
       score: 0,
       showResults: false,
+      eloRating: getInitialElo()
     });
   };
 
@@ -54,9 +92,10 @@ export default function Home() {
         <StreakDisplay />
         {!quizState.showResults ? (
           <>
-            <div className="text-center mb-6 text-lg text-gray-600">
-              Question {quizState.currentQuestionIndex + 1} of {dailyQuestions.length}
-            </div>
+            <QuizProgress 
+              currentQuestion={quizState.currentQuestionIndex}
+              totalQuestions={dailyQuestions.length}
+            />
             {dailyQuestions.length > 0 && (
               <QuizCard
                 question={dailyQuestions[quizState.currentQuestionIndex]}
@@ -69,6 +108,8 @@ export default function Home() {
             score={quizState.score}
             totalQuestions={dailyQuestions.length}
             onRestart={handleRestart}
+            eloRating={quizState.eloRating}
+            ratingHistory={ratingHistory}
           />
         )}
       </div>

@@ -21,9 +21,18 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
     onAnswer(isCorrect);
   };
 
+  console.log('QuizCard received question:', question); // Full question object
+  console.log('Question difficulty:', question?.difficulty); // Specific difficulty check
+
   return (
     <div className="quiz-card">
-      <h2 className="text-2xl font-bold mb-6">{question.question}</h2>
+      <h2 className="text-2xl font-bold mb-2">{question.question}</h2>
+      <div className="flex items-center gap-2 mb-6">
+        <span className="text-sm text-gray-500">GMAT Level:</span>
+        <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+          {question.difficulty}+ GMAT
+        </span>
+      </div>
       {question.image && (
         <div className="mb-6">
           <img 
