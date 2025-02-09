@@ -1,31 +1,39 @@
 import React, { useEffect } from 'react';
 import { Question } from '@/types/quiz';
 import { useState } from 'react';
+import RatingChange from './RatingChange';
 
 interface QuizCardProps {
   question: Question;
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (isCorrect: boolean, callback: (oldRating: number, newRating: number) => void) => void;
 }
 
 export default function QuizCard({ question, onAnswer }: QuizCardProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [ratingChange, setRatingChange] = useState<{old: number, new: number} | null>(null);
 
   // Reset selected answer when question changes
   useEffect(() => {
     setSelectedAnswer(null);
+    setRatingChange(null);
   }, [question]);
 
   const handleAnswer = (optionIndex: number) => {
     setSelectedAnswer(optionIndex);
     const isCorrect = optionIndex === question.correctAnswer;
-    onAnswer(isCorrect);
+    onAnswer(isCorrect, (oldRating, newRating) => {
+      setRatingChange({ old: oldRating, new: newRating });
+    });
   };
 
   console.log('QuizCard received question:', question); // Full question object
   console.log('Question difficulty:', question?.difficulty); // Specific difficulty check
 
   return (
-    <div className="quiz-card">
+    <div className="quiz-card relative">
+      {ratingChange && (
+        <RatingChange oldRating={ratingChange.old} newRating={ratingChange.new} />
+      )}
       <h2 className="text-2xl font-bold mb-2">{question.question}</h2>
       <div className="flex items-center gap-2 mb-6">
         <span className="text-sm text-gray-500">GMAT Level:</span>
