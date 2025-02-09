@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --background: #F0E6FF;
+  --card-bg: #FFFFFF;
+  --text: #1F2937;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.quiz-container {
+  @apply max-w-2xl mx-auto p-6 my-8;
+}
+
+.quiz-card {
+  @apply bg-white rounded-xl shadow-lg p-8 transition-all;
+}
+
+.quiz-button {
+  @apply w-full p-4 text-left rounded-lg transition-all
+    hover:bg-blue-50 hover:shadow-md
+    disabled:cursor-not-allowed
+    disabled:hover:shadow-none;
+}
+
+.quiz-button.correct {
+  @apply bg-green-100 text-green-800 hover:bg-green-100;
+}
+
+.quiz-button.incorrect {
+  @apply bg-red-100 text-red-800 hover:bg-red-100;
+}
+
+.primary-button {
+  @apply bg-indigo-600 text-white px-8 py-3 rounded-lg
+    hover:bg-indigo-700 transition-colors
+    font-medium text-lg;
+} 
