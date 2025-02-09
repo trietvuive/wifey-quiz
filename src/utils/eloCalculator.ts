@@ -24,7 +24,7 @@ export function getInitialElo(): number {
     const eloData: EloRating = JSON.parse(stored);
     return eloData.rating;
   }
-  return 500; // Starting Elo
+  return 600; // Changed from 500 to 600
 }
 
 export function updateEloHistory(
