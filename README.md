@@ -22,17 +22,23 @@ A personalized GMAT preparation quiz application with daily streak tracking.
 ### Installation
 
 1. Clone the repository
-   bash
-   git clone https://github.com/yourusername/wifey-gmat-prep.git
-   cd wifey-gmat-prep
+
+```
+git clone https://github.com/yourusername/wifey-gmat-prep.git
+cd wifey-gmat-prep
+```
 
 2. Install dependencies
-   bash
-   npm install
+
+```
+npm install
+```
 
 3. Start the development server
-   bash
-   npm run dev
+
+```
+npm run dev
+```
 
 4. Open your browser and navigate to `http://localhost:3000`
 
