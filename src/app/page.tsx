@@ -43,13 +43,28 @@ export default function Home() {
     }
   }, [quizState.eloRating]);
 
-  const handleAnswer = (isCorrect: boolean, onRatingChange: (old: number, newRating: number) => void) => {
+  const handleAnswer = (isCorrect: boolean, selectedIndex: number, onRatingChange: (old: number, newRating: number) => void) => {
     const currentQuestion = dailyQuestions[quizState.currentQuestionIndex];
     const newElo = calculateNewElo(
       quizState.eloRating,
       currentQuestion.difficulty,
       isCorrect
     );
+
+    // Save question attempt to history
+    const stored = localStorage.getItem('questionHistory');
+    const history = stored ? JSON.parse(stored) : { attempts: [] };
+    history.attempts.push({
+      date: new Date().toISOString(),
+      question: currentQuestion.question,
+      isCorrect,
+      ratingChange: newElo - quizState.eloRating,
+      difficulty: currentQuestion.difficulty,
+      selectedOption: currentQuestion.options[selectedIndex],
+      correctOption: currentQuestion.options[currentQuestion.correctAnswer],
+      options: currentQuestion.options
+    });
+    localStorage.setItem('questionHistory', JSON.stringify(history));
 
     setNotification({
       oldRating: quizState.eloRating,

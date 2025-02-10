@@ -5,7 +5,7 @@ import RatingChange from './RatingChange';
 
 interface QuizCardProps {
   question: Question;
-  onAnswer: (isCorrect: boolean, callback: (oldRating: number, newRating: number) => void) => void;
+  onAnswer: (isCorrect: boolean, selectedIndex: number, callback: (oldRating: number, newRating: number) => void) => void;
 }
 
 export default function QuizCard({ question, onAnswer }: QuizCardProps) {
@@ -21,7 +21,7 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
   const handleAnswer = (optionIndex: number) => {
     setSelectedAnswer(optionIndex);
     const isCorrect = optionIndex === question.correctAnswer;
-    onAnswer(isCorrect, (oldRating, newRating) => {
+    onAnswer(isCorrect, optionIndex, (oldRating, newRating) => {
       setRatingChange({ old: oldRating, new: newRating });
     });
   };
