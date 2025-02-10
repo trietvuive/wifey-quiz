@@ -8,7 +8,7 @@ interface RatingHistoryProps {
 
 export default function RatingHistory({ history }: RatingHistoryProps) {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-4 h-fit">
+    <div className="bg-white rounded-xl shadow-lg p-4 h-fit mt-[52px]">
       <h3 className="text-lg font-bold mb-4">Rating History</h3>
       <RatingGraph history={history} />
       <div className="space-y-2 max-h-[400px] overflow-y-auto mt-4">
