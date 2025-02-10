@@ -33,7 +33,7 @@ function ResultsContent() {
         <RatingNotification 
           oldRating={oldRating}
           newRating={rating}
-          isCorrect={score > 0}
+          isCorrect={rating > oldRating}
         />
         <Results
           score={score}
