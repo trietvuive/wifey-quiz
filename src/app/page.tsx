@@ -12,6 +12,7 @@ import QuizProgress from '@/components/QuizProgress';
 import { calculateNewElo, getInitialElo, updateEloHistory } from '@/utils/eloCalculator';
 import RatingHistory from '@/components/RatingHistory';
 import RatingNotification from '@/components/RatingNotification';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [dailyQuestions, setDailyQuestions] = useState<Question[]>([]);
@@ -27,6 +28,7 @@ export default function Home() {
     newRating: number;
     isCorrect: boolean;
   } | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const questions = getDailyQuestions();
@@ -89,7 +91,8 @@ export default function Home() {
         currentQuestionIndex: prev.currentQuestionIndex + 1,
       }));
     } else {
-      setQuizState(prev => ({ ...prev, showResults: true }));
+      router.push(`/results?score=${quizState.score}&total=${dailyQuestions.length}&rating=${newElo}&oldRating=${quizState.eloRating}`);
+      return;
     }
   };
 
@@ -112,6 +115,13 @@ export default function Home() {
         <StreakDisplay />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2">
+            {notification && (
+              <RatingNotification
+                oldRating={notification.oldRating}
+                newRating={notification.newRating}
+                isCorrect={notification.isCorrect}
+              />
+            )}
             {!quizState.showResults ? (
               <>
                 <QuizProgress 
@@ -129,9 +139,8 @@ export default function Home() {
               <Results
                 score={quizState.score}
                 totalQuestions={dailyQuestions.length}
-                onRestart={handleRestart}
                 eloRating={quizState.eloRating}
-                ratingHistory={ratingHistory}
+                completed={false}
               />
             )}
           </div>

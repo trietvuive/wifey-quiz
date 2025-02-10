@@ -45,14 +45,28 @@ export function updateEloHistory(
   
   const stored = localStorage.getItem('eloRating');
   const eloData: EloRating = stored ? JSON.parse(stored) : { rating: currentElo, history: [] };
-  
+  const today = new Date().toLocaleDateString();
+
+  // Find today's entry if it exists
+  const todayEntry = eloData.history.find(entry => 
+    new Date(entry.date).toLocaleDateString() === today
+  );
+
+  if (todayEntry) {
+    // Update existing entry
+    todayEntry.rating = newElo;
+    todayEntry.correctCount += correct ? 1 : 0;
+    todayEntry.totalCount += 1;
+  } else {
+    // Create new entry for today
+    eloData.history.push({
+      date: new Date().toISOString(),
+      rating: newElo,
+      correctCount: correct ? 1 : 0,
+      totalCount: 1
+    });
+  }
+
   eloData.rating = newElo;
-  eloData.history.push({
-    date: new Date().toISOString(),
-    rating: newElo,
-    questionDifficulty,
-    correct
-  });
-  
   localStorage.setItem('eloRating', JSON.stringify(eloData));
 } 

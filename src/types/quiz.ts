@@ -20,14 +20,14 @@ export interface StreakData {
   longestStreak: number;
 }
 
-export interface EloRating {
-  rating: number;
-  history: EloHistory[];
-}
-
 export interface EloHistory {
   date: string;
   rating: number;
-  questionDifficulty: number;
-  correct: boolean;
+  correctCount: number;
+  totalCount: number;
+}
+
+export interface EloRating {
+  rating: number;
+  history: EloHistory[];
 } 

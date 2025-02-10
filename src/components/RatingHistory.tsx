@@ -1,5 +1,6 @@
 import React from 'react';
 import { EloHistory } from '@/types/quiz';
+import RatingGraph from './RatingGraph';
 
 interface RatingHistoryProps {
   history: EloHistory[];
@@ -9,7 +10,8 @@ export default function RatingHistory({ history }: RatingHistoryProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 h-fit">
       <h3 className="text-lg font-bold mb-4">Rating History</h3>
-      <div className="space-y-2 max-h-[400px] overflow-y-auto">
+      <RatingGraph history={history} />
+      <div className="space-y-2 max-h-[400px] overflow-y-auto mt-4">
         {history.slice().reverse().map((entry, index) => (
           <div 
             key={index}
@@ -23,10 +25,10 @@ export default function RatingHistory({ history }: RatingHistoryProps) {
                 Rating: {entry.rating}
               </div>
             </div>
-            <div className={`text-sm ${
-              entry.correct ? 'text-green-600' : 'text-red-600'
-            }`}>
-              {entry.correct ? '✓' : '✗'}
+            <div className={`text-sm text-gray-600`}>
+              {entry.totalCount > 0 
+                ? `${Math.round((entry.correctCount / entry.totalCount) * 100)}% accuracy` 
+                : '0% accuracy'}
             </div>
           </div>
         ))}

@@ -6,7 +6,7 @@ interface QuizProgressProps {
 }
 
 export default function QuizProgress({ currentQuestion, totalQuestions }: QuizProgressProps) {
-  const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+  const progress = (currentQuestion / totalQuestions) * 100;
 
   return (
     <div className="mb-6">
