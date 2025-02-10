@@ -9,13 +9,11 @@ A personalized GMAT preparation app with adaptive difficulty.
 - 🔥 Daily login streak tracking
 - 🏆 Best streak records
 - ✨ Immediate feedback on answers
-- 📱 Responsive design
-- 🎯 Score tracking
 - 📈 Rating history with performance graph
 - 📊 Daily question sets for consistent practice
 - 📝 Rating change notifications after each answer
 - 📈 Historical performance timeline
-- 📈 Daily progress tracking
+- 📝 Question history with options and correct answer
 
 ## Getting Started
 
