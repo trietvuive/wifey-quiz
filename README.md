@@ -1,6 +1,6 @@
 # Wifey GMAT Prep
 
-A personalized GMAT preparation quiz application with daily streak tracking.
+A personalized GMAT preparation app with adaptive difficulty.
 
 ## Features
 
@@ -11,6 +11,11 @@ A personalized GMAT preparation quiz application with daily streak tracking.
 - ✨ Immediate feedback on answers
 - 📱 Responsive design
 - 🎯 Score tracking
+- 📈 Rating history with performance graph
+- 📊 Daily question sets for consistent practice
+- 📝 Rating change notifications after each answer
+- 📈 Historical performance timeline
+- 📈 Daily progress tracking
 
 ## Getting Started
 

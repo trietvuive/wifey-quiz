@@ -1,3 +1,5 @@
+import { EloRating } from '@/types/quiz';
+
 const K_FACTOR = 32; // How quickly the rating changes
 
 export function calculateNewElo(
