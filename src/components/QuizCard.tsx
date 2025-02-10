@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Question } from '@/types/quiz';
+import { Question } from '@/types';
 import { useState } from 'react';
 import RatingChange from './RatingChange';
 

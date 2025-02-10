@@ -2,7 +2,7 @@ import React from 'react';
 import Countdown from './Countdown';
 import RatingGraph from './RatingGraph';
 import { useEffect, useState } from 'react';
-import { EloHistory } from '@/types/quiz';
+import { EloHistory } from '@/types';
 
 interface ResultsProps {
   score: number;

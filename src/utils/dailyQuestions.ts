@@ -1,4 +1,4 @@
-import { Question } from '@/types/quiz';
+import { Question } from '@/types';
 import { questions as allQuestions } from '@/data/questions';
 
 function getRandomQuestions(count: number): Question[] {

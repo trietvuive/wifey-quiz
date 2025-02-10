@@ -1,4 +1,4 @@
-import { EloRating } from '@/types/quiz';
+import { EloHistory, EloRating } from '@/types';
 
 const K_FACTOR = 32; // How quickly the rating changes
 

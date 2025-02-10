@@ -1,6 +1,6 @@
 import React from 'react';
+import { StreakData } from '@/types';
 import { useEffect, useState } from 'react';
-import { StreakData } from '@/types/quiz';
 
 export default function StreakDisplay() {
   const [streak, setStreak] = useState<StreakData>({

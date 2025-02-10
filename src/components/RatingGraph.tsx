@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { EloHistory } from '@/types/quiz';
+import { EloHistory } from '@/types';
 
 interface RatingGraphProps {
   history: EloHistory[];

@@ -2,10 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { getDailyQuestions } from '@/utils/dailyQuestions';
-import { Question, EloHistory } from '@/types/quiz';
+import { Question, EloHistory, QuizState } from '@/types';
 import QuizCard from '@/components/QuizCard';
 import Results from '@/components/Results';
-import { QuizState } from '@/types/quiz';
 import StreakDisplay from '@/components/StreakDisplay';
 import Logo from '@/components/Logo';
 import QuizProgress from '@/components/QuizProgress';

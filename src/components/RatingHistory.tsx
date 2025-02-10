@@ -1,5 +1,5 @@
 import React from 'react';
-import { EloHistory } from '@/types/quiz';
+import { EloHistory } from '@/types';
 import RatingGraph from './RatingGraph';
 
 interface RatingHistoryProps {
