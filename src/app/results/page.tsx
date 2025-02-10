@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Results from '@/components/Results';
 import { useSearchParams } from 'next/navigation';
@@ -8,7 +8,7 @@ import Logo from '@/components/Logo';
 import StreakDisplay from '@/components/StreakDisplay';
 import RatingNotification from '@/components/RatingNotification';
 
-export default function ResultsPage() {
+function ResultsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const score = Number(searchParams.get('score'));
@@ -43,5 +43,13 @@ export default function ResultsPage() {
         />
       </div>
     </main>
+  );
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultsContent />
+    </Suspense>
   );
 } 
