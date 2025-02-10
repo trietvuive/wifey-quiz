@@ -20,13 +20,19 @@ export function calculateNewElo(
   return Math.min(Math.max(newRating, 200), 800);
 }
 
+function isClient(): boolean {
+  return typeof window !== 'undefined';
+}
+
 export function getInitialElo(): number {
+  if (!isClient()) return 600;
+  
   const stored = localStorage.getItem('eloRating');
   if (stored) {
     const eloData: EloRating = JSON.parse(stored);
     return eloData.rating;
   }
-  return 600; // Changed from 500 to 600
+  return 600;
 }
 
 export function updateEloHistory(
@@ -35,6 +41,8 @@ export function updateEloHistory(
   questionDifficulty: number,
   correct: boolean
 ) {
+  if (!isClient()) return;
+  
   const stored = localStorage.getItem('eloRating');
   const eloData: EloRating = stored ? JSON.parse(stored) : { rating: currentElo, history: [] };
   
