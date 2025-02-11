@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Question } from '@/types';
 import { useState } from 'react';
 import RatingChange from './RatingChange';
+import QuizTimer from './QuizTimer';
 
 interface QuizCardProps {
   question: Question;
@@ -25,8 +26,15 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
     });
   };
 
+  const handleTimeUp = () => {
+    if (selectedAnswer === null) {
+      handleAnswer(-1); // -1 indicates timeout
+    }
+  };
+
   return (
     <div className="quiz-card relative">
+      <QuizTimer onTimeUp={handleTimeUp} />
       {ratingChange && (
         <RatingChange oldRating={ratingChange.old} newRating={ratingChange.new} />
       )}
