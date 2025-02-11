@@ -8,6 +8,7 @@ import Logo from '@/components/Logo';
 import StreakDisplay from '@/components/StreakDisplay';
 import RatingNotification from '@/components/RatingNotification';
 import Countdown from '@/components/Countdown';
+import Header from '@/components/Header';
 
 function ResultsContent() {
   const router = useRouter();
@@ -26,10 +27,7 @@ function ResultsContent() {
   return (
     <main className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-indigo-600">Welcome Duckey! 🦆</h2>
-        </div>
-        <Logo />
+        <Header />
         <StreakDisplay />
         <RatingNotification 
           oldRating={oldRating}

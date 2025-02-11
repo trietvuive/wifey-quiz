@@ -13,6 +13,7 @@ import RatingHistory from '@/components/RatingHistory';
 import RatingNotification from '@/components/RatingNotification';
 import { useRouter } from 'next/navigation';
 import { formatDate } from '@/utils/dateFormatter';
+import Header from '@/components/Header';
 
 export default function Home() {
   const [dailyQuestions, setDailyQuestions] = useState<Question[]>([]);
@@ -107,10 +108,7 @@ export default function Home() {
   return (
     <main className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-indigo-600">Welcome Duckey! 🦆</h2>
-        </div>
-        <Logo />
+        <Header />
         <StreakDisplay />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2">

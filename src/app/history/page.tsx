@@ -4,6 +4,7 @@ import React from 'react';
 import { QuestionAttempt } from '@/types';
 import Logo from '@/components/Logo';
 import { questions } from '@/data/questions';
+import Header from '@/components/Header';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -26,9 +27,8 @@ export default function HistoryPage() {
   return (
     <main className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
-        <Logo />
+        <Header title="Question History" />
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Question History</h1>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
