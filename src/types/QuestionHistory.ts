@@ -1,12 +1,8 @@
 export interface QuestionAttempt {
   date: string;
-  question: string;
-  isCorrect: boolean;
+  questionId: number;
   ratingChange: number;
-  difficulty: number;
-  selectedOption?: string;
-  correctOption?: string;
-  options?: string[];
+  selectedOptionIndex: number;
 }
 
 export interface QuestionHistory {

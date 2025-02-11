@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import Logo from '@/components/Logo';
 import StreakDisplay from '@/components/StreakDisplay';
 import RatingNotification from '@/components/RatingNotification';
+import Countdown from '@/components/Countdown';
 
 function ResultsContent() {
   const router = useRouter();
@@ -41,6 +42,7 @@ function ResultsContent() {
           eloRating={rating}
           completed={true}
         />
+        <Countdown />
       </div>
     </main>
   );

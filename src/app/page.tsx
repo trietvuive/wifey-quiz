@@ -8,10 +8,11 @@ import Results from '@/components/Results';
 import StreakDisplay from '@/components/StreakDisplay';
 import Logo from '@/components/Logo';
 import QuizProgress from '@/components/QuizProgress';
-import { calculateNewElo, getInitialElo, updateEloHistory } from '@/utils/eloCalculator';
+import { calculateNewElo, getInitialElo, getEloHistory } from '@/utils/eloCalculator';
 import RatingHistory from '@/components/RatingHistory';
 import RatingNotification from '@/components/RatingNotification';
 import { useRouter } from 'next/navigation';
+import { formatDate } from '@/utils/dateFormatter';
 
 export default function Home() {
   const [dailyQuestions, setDailyQuestions] = useState<Question[]>([]);
@@ -31,16 +32,11 @@ export default function Home() {
 
   useEffect(() => {
     const questions = getDailyQuestions();
-    console.log('Setting daily questions:', questions); // Debug log
     setDailyQuestions(questions);
   }, []);
 
   useEffect(() => {
-    const stored = localStorage.getItem('eloRating');
-    if (stored) {
-      const { history } = JSON.parse(stored);
-      setRatingHistory(history);
-    }
+    setRatingHistory(getEloHistory());
   }, [quizState.eloRating]);
 
   const handleAnswer = (isCorrect: boolean, selectedIndex: number, onRatingChange: (old: number, newRating: number) => void) => {
@@ -55,14 +51,10 @@ export default function Home() {
     const stored = localStorage.getItem('questionHistory');
     const history = stored ? JSON.parse(stored) : { attempts: [] };
     history.attempts.push({
-      date: new Date().toISOString(),
-      question: currentQuestion.question,
-      isCorrect,
+      date: formatDate(new Date()),
+      questionId: currentQuestion.id,
       ratingChange: newElo - quizState.eloRating,
-      difficulty: currentQuestion.difficulty,
-      selectedOption: currentQuestion.options[selectedIndex],
-      correctOption: currentQuestion.options[currentQuestion.correctAnswer],
-      options: currentQuestion.options
+      selectedOptionIndex: selectedIndex
     });
     localStorage.setItem('questionHistory', JSON.stringify(history));
 
@@ -78,13 +70,6 @@ export default function Home() {
     }, 2000);
 
     onRatingChange(quizState.eloRating, newElo);
-
-    updateEloHistory(
-      quizState.eloRating,
-      newElo,
-      currentQuestion.difficulty,
-      isCorrect
-    );
 
     if (isCorrect) {
       setQuizState(prev => ({ 

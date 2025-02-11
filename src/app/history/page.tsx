@@ -3,6 +3,7 @@
 import React from 'react';
 import { QuestionAttempt } from '@/types';
 import Logo from '@/components/Logo';
+import { questions } from '@/data/questions';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -50,56 +51,52 @@ export default function HistoryPage() {
         </div>
 
         <div className="space-y-4">
-          {paginatedHistory.map((attempt, index) => (
-            <div key={index} className="bg-white rounded-lg shadow p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">
-                  {new Date(attempt.date).toLocaleDateString()}
-                </span>
-                <span className={`font-bold ${
-                  attempt.isCorrect ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {attempt.isCorrect ? '✅ Correct' : '❌ Incorrect'}
-                </span>
-              </div>
-              <p className="text-gray-800 mb-4">{attempt.question}</p>
-              
-              {attempt.options ? (
-                <div className="space-y-2 mb-4">
-                  {attempt.options.map((option, i) => (
-                    <div 
-                      key={i}
-                      className={`p-2 rounded ${
-                        option === attempt.correctOption
-                          ? 'bg-green-100 border-green-500'
-                          : option === attempt.selectedOption && !attempt.isCorrect
-                          ? 'bg-red-100 border-red-500'
-                          : 'bg-gray-50'
-                      } border`}
-                    >
-                      {option === attempt.correctOption && '✓ '}
-                      {option === attempt.selectedOption && !attempt.isCorrect && '✗ '}
-                      {option}
-                    </div>
-                  ))}
+          {paginatedHistory.map((attempt, index) => {
+            const question = questions.find(q => q.id === attempt.questionId);
+            return (
+              <div key={index} className="bg-white rounded-lg shadow p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-600">
+                    {new Date(attempt.date).toLocaleDateString()}
+                  </span>
+                  <span className={`font-bold ${
+                    attempt.ratingChange > 0 ? 'text-green-600' : 'text-red-600'
+                  }`}>
+                    {attempt.ratingChange > 0 ? '✅ Correct' : '❌ Incorrect'}
+                  </span>
                 </div>
-              ) : (
-                <div className="mb-4">
-                  <div className="text-sm text-gray-600">
-                    {attempt.selectedOption && `Selected: ${attempt.selectedOption}`}
-                    {attempt.correctOption && ` | Correct: ${attempt.correctOption}`}
+                <p className="text-gray-800 mb-4">{question?.question || 'Question not found'}</p>
+                
+                {question?.options && (
+                  <div className="space-y-2 mb-4">
+                    {question.options.map((option, i) => (
+                      <div 
+                        key={i}
+                        className={`p-2 rounded ${
+                          i === question.correctAnswer
+                            ? 'bg-green-100 border-green-500'
+                            : i === attempt.selectedOptionIndex && !attempt.isCorrect
+                            ? 'bg-red-100 border-red-500'
+                            : 'bg-gray-50'
+                        } border`}
+                      >
+                        {i === question.correctAnswer && '✓ '}
+                        {i === attempt.selectedOptionIndex && !attempt.isCorrect && '✗ '}
+                        {option}
+                      </div>
+                    ))}
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>Difficulty: {attempt.difficulty}</span>
-                <span className={attempt.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}>
-                  Rating change: {attempt.ratingChange >= 0 ? '+' : ''}{attempt.ratingChange}
-                </span>
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Difficulty: {question?.difficulty || 'Unknown'}</span>
+                  <span className={attempt.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}>
+                    Rating change: {attempt.ratingChange >= 0 ? '+' : ''}{attempt.ratingChange}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {history.length === 0 && (

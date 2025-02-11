@@ -1,4 +1,5 @@
-import { EloHistory, EloRating } from '@/types';
+import { EloHistory, EloRating, QuestionAttempt } from '@/types';
+import { formatDate } from './dateFormatter';
 
 const K_FACTOR = 32; // How quickly the rating changes
 
@@ -35,38 +36,35 @@ export function getInitialElo(): number {
   return 600;
 }
 
-export function updateEloHistory(
-  currentElo: number,
-  newElo: number,
-  questionDifficulty: number,
-  correct: boolean
-) {
-  if (!isClient()) return;
+export function getEloHistory(): EloHistory[] {
+  if (!isClient()) return [];
   
-  const stored = localStorage.getItem('eloRating');
-  const eloData: EloRating = stored ? JSON.parse(stored) : { rating: currentElo, history: [] };
-  const today = new Date().toLocaleDateString();
+  const stored = localStorage.getItem('questionHistory');
+  if (!stored) return [];
 
-  // Find today's entry if it exists
-  const todayEntry = eloData.history.find(entry => 
-    new Date(entry.date).toLocaleDateString() === today
-  );
+  const { attempts } = JSON.parse(stored);
+  const historyMap = new Map<string, EloHistory>();
 
-  if (todayEntry) {
-    // Update existing entry
-    todayEntry.rating = newElo;
-    todayEntry.correctCount += correct ? 1 : 0;
-    todayEntry.totalCount += 1;
-  } else {
-    // Create new entry for today
-    eloData.history.push({
-      date: new Date().toISOString(),
-      rating: newElo,
-      correctCount: correct ? 1 : 0,
-      totalCount: 1
-    });
-  }
+  let currentElo = 600; // Starting ELO
+  
+  attempts.forEach((attempt: QuestionAttempt) => {
+    const date = attempt.date;
+    
+    if (!historyMap.has(date)) {
+      historyMap.set(date, {
+        date,
+        rating: currentElo,
+        correctCount: 0,
+        totalCount: 0
+      });
+    }
 
-  eloData.rating = newElo;
-  localStorage.setItem('eloRating', JSON.stringify(eloData));
+    const entry = historyMap.get(date)!;
+    currentElo += attempt.ratingChange;
+    entry.rating = currentElo;
+    entry.correctCount += attempt.ratingChange > 0 ? 1 : 0;
+    entry.totalCount += 1;
+  });
+
+  return Array.from(historyMap.values());
 } 

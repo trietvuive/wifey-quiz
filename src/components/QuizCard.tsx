@@ -12,7 +12,6 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [ratingChange, setRatingChange] = useState<{old: number, new: number} | null>(null);
 
-  // Reset selected answer when question changes
   useEffect(() => {
     setSelectedAnswer(null);
     setRatingChange(null);
@@ -25,9 +24,6 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
       setRatingChange({ old: oldRating, new: newRating });
     });
   };
-
-  console.log('QuizCard received question:', question); // Full question object
-  console.log('Question difficulty:', question?.difficulty); // Specific difficulty check
 
   return (
     <div className="quiz-card relative">

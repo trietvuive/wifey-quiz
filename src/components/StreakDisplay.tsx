@@ -1,11 +1,12 @@
 import React from 'react';
 import { StreakData } from '@/types';
 import { useEffect, useState } from 'react';
+import { formatDate } from '@/utils/dateFormatter';
 
 export default function StreakDisplay() {
   const [streak, setStreak] = useState<StreakData>({
     currentStreak: 0,
-    lastLoginDate: '',
+    lastLoginDate: formatDate(new Date()),
     longestStreak: 0
   });
 
@@ -15,8 +16,8 @@ export default function StreakDisplay() {
       const savedStreak = localStorage.getItem('quizStreak');
       if (savedStreak) {
         const streakData: StreakData = JSON.parse(savedStreak);
-        const today = new Date().toDateString();
-        const lastLogin = new Date(streakData.lastLoginDate).toDateString();
+        const today = formatDate(new Date());
+        const lastLogin = streakData.lastLoginDate;
         
         if (today === lastLogin) {
           // Already logged in today
@@ -44,7 +45,7 @@ export default function StreakDisplay() {
         // First time login
         const newStreak = {
           currentStreak: 1,
-          lastLoginDate: new Date().toDateString(),
+          lastLoginDate: formatDate(new Date()),
           longestStreak: 1
         };
         setStreak(newStreak);

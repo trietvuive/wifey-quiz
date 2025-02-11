@@ -1,8 +1,8 @@
 import React from 'react';
-import Countdown from './Countdown';
 import RatingGraph from './RatingGraph';
 import { useEffect, useState } from 'react';
 import { EloHistory } from '@/types';
+import { getEloHistory } from '@/utils/eloCalculator';
 
 interface ResultsProps {
   score: number;
@@ -15,9 +15,9 @@ export default function Results({ score, totalQuestions, eloRating, completed }:
   const [ratingHistory, setRatingHistory] = useState<EloHistory[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem('eloRating');
+    const stored = localStorage.getItem('questionHistory');
     if (stored) {
-      const { history } = JSON.parse(stored);
+      const history = getEloHistory();
       setRatingHistory(history);
     }
   }, []);

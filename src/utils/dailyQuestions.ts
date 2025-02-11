@@ -1,32 +1,28 @@
 import { Question } from '@/types';
 import { questions as allQuestions } from '@/data/questions';
+import { formatDate } from './dateFormatter';
 
-function getRandomQuestions(count: number): Question[] {
+function getRandomQuestions(count: number): number[] {
   const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
+  return shuffled.slice(0, count).map(q => q.id);
 }
 
 export function getDailyQuestions(): Question[] {
-  console.log('All questions:', allQuestions); // Debug log
-
-  const today = new Date().toDateString();
+  const today = formatDate(new Date());
   const stored = localStorage.getItem('dailyQuestions');
   
   if (stored) {
-    const { date, questions } = JSON.parse(stored);
+    const { date, questionIds } = JSON.parse(stored);
     if (date === today) {
-      console.log('Returning stored questions:', questions); // Debug log
-      return questions;
+      return JSON.parse(stored).questionIds.map((id: number) => allQuestions.find(q => q.id === id)!);
     }
   }
 
-  const dailyQuestions = getRandomQuestions(4);
-  console.log('New daily questions:', dailyQuestions); // Debug log
-  
+  const dailyQuestionIds = getRandomQuestions(4);
   localStorage.setItem('dailyQuestions', JSON.stringify({
     date: today,
-    questions: dailyQuestions
+    questionIds: dailyQuestionIds
   }));
   
-  return dailyQuestions;
+  return dailyQuestionIds.map((id: number) => allQuestions.find(q => q.id === id)!);
 } 
