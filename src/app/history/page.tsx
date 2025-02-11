@@ -75,13 +75,13 @@ export default function HistoryPage() {
                         className={`p-2 rounded ${
                           i === question.correctAnswer
                             ? 'bg-green-100 border-green-500'
-                            : i === attempt.selectedOptionIndex && !attempt.isCorrect
+                            : i === attempt.selectedOptionIndex && attempt.ratingChange <= 0
                             ? 'bg-red-100 border-red-500'
                             : 'bg-gray-50'
                         } border`}
                       >
                         {i === question.correctAnswer && '✓ '}
-                        {i === attempt.selectedOptionIndex && !attempt.isCorrect && '✗ '}
+                        {i === attempt.selectedOptionIndex && attempt.ratingChange <= 0 && '✗ '}
                         {option}
                       </div>
                     ))}
