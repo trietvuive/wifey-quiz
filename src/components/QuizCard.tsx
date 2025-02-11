@@ -34,7 +34,7 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
 
   return (
     <div className="quiz-card relative">
-      <QuizTimer onTimeUp={handleTimeUp} />
+      <QuizTimer onTimeUp={handleTimeUp} questionId={question.id} seconds={120} />
       {ratingChange && (
         <RatingChange oldRating={ratingChange.old} newRating={ratingChange.new} />
       )}

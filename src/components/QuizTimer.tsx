@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 interface QuizTimerProps {
   onTimeUp: () => void;
+  questionId: number;
+  seconds: number;
 }
 
-export default function QuizTimer({ onTimeUp }: QuizTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+export default function QuizTimer({ onTimeUp, questionId, seconds }: QuizTimerProps) {
+  const [timeLeft, setTimeLeft] = useState(seconds);
+
+  useEffect(() => {
+    setTimeLeft(seconds);
+  }, [questionId, seconds]);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -21,11 +27,11 @@ export default function QuizTimer({ onTimeUp }: QuizTimerProps) {
   }, [timeLeft, onTimeUp]);
 
   const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+  const secondsLeft = timeLeft % 60;
 
   return (
     <div className="text-sm text-gray-600 mb-4">
-      Time remaining: {minutes}:{seconds.toString().padStart(2, '0')}
+      Time remaining: {minutes}:{secondsLeft.toString().padStart(2, '0')}
     </div>
   );
 } 
