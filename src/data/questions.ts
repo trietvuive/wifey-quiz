@@ -175,8 +175,8 @@ export const questions: Question[] = [
   {
     id: 15,
     question: "If the price of a magazine is to be doubled, by what percent will the number of magazines sold decrease?\n\n\
-    (1) The current price of the magazine is $1.00.\n\
-    (2) For every $0.25 of increase in price, the number of magazines sold will decrease by 10 percent of the number sold at the current price.",
+    (1) The current price of the magazine is \\$1.00.\n\
+    (2) For every \\$0.25 of increase in price, the number of magazines sold will decrease by 10 percent of the number sold at the current price.",
     options: [
       "Statement 1 alone is sufficient, but statement 2 alone is not",
       "Statement 2 alone is sufficient, but statement 1 alone is not",
@@ -242,9 +242,9 @@ export const questions: Question[] = [
   },
   {
     id: 19,
-    question: "If a, b and c are even integers greater than 10, is a+b divisible by 6?\n\n\
-    (1) b=2c\n\
-    (2) a=2b",
+    question: "If a, b and c are even integers greater than 10, is $a+b$ divisible by 6?\n\n\
+    (1) $b=2c$\n\
+    (2) $a=2b$",
     options: [
       "Statement 1 alone is sufficient, but statement 2 alone is not",
       "Statement 2 alone is sufficient, but statement 1 alone is not",
