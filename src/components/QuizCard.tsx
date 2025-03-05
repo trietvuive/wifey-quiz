@@ -3,7 +3,7 @@ import { Question } from '@/types';
 import { useState } from 'react';
 import RatingChange from './RatingChange';
 import QuizTimer from './QuizTimer';
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
+import MathJaxText from './MathJaxText';
 
 interface QuizCardProps {
   question: Question;
@@ -48,13 +48,7 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
         <RatingChange oldRating={ratingChange.old} newRating={ratingChange.new} />
       )}
       <h2 className="text-2xl font-bold mb-2">
-        <MathJaxContext config={config} version={2}>
-          <MathJax
-            dangerouslySetInnerHTML={{
-              __html: question.question.replace(/\n/g, '<br />'),
-            }}
-          />
-        </MathJaxContext>
+        <MathJaxText text={question.question}/>
       </h2>
       <div className="flex items-center gap-2 mb-6">
         <span className="text-sm text-gray-500">GMAT Level:</span>

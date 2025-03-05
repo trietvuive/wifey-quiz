@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { QuestionAttempt } from '@/types';
-import Logo from '@/components/Logo';
 import { questions } from '@/data/questions';
 import Header from '@/components/Header';
+import MathJaxText from '@/components/MathJaxText';
+import { MathJax } from 'better-react-mathjax';
+
 
 const ITEMS_PER_PAGE = 10;
 
@@ -65,8 +67,7 @@ export default function HistoryPage() {
                     {attempt.ratingChange > 0 ? '✅ Correct' : '❌ Incorrect'}
                   </span>
                 </div>
-                <p className="text-gray-800 mb-4">{question?.question || 'Question not found'}</p>
-                
+                <MathJaxText text={question?.question || 'Unknown'}/>
                 {question?.options && (
                   <div className="space-y-2 mb-4">
                     {question.options.map((option, i) => (
@@ -93,6 +94,10 @@ export default function HistoryPage() {
                   <span className={attempt.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}>
                     Rating change: {attempt.ratingChange >= 0 ? '+' : ''}{attempt.ratingChange}
                   </span>
+                </div>
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Category: {question?.category || 'Unknown'}</span>
+                  <span>Tags: {question?.tags?.join(',') || 'Unknown'}</span>
                 </div>
               </div>
             );
