@@ -72,27 +72,22 @@ export default function Home() {
 
     onRatingChange(quizState.eloRating, newElo);
 
-    if (isCorrect) {
-      setQuizState(prev => ({ 
-        ...prev, 
-        score: prev.score + 1,
-        eloRating: newElo
-      }));
-    } else {
-      setQuizState(prev => ({ 
+    // Update score based on correctness
+    setQuizState(prev => {
+      const updatedScore = isCorrect ? prev.score + 1 : prev.score; // Increment score if the answer is correct
+      return {
         ...prev,
-        eloRating: newElo
-      }));
-    }
+        score: updatedScore,
+        eloRating: newElo,
+        currentQuestionIndex: prev.currentQuestionIndex < dailyQuestions.length - 1 ? 
+                              prev.currentQuestionIndex + 1 : 
+                              prev.currentQuestionIndex
+      };
+    });
 
-    if (quizState.currentQuestionIndex < dailyQuestions.length - 1) {
-      setQuizState(prev => ({
-        ...prev,
-        currentQuestionIndex: prev.currentQuestionIndex + 1,
-      }));
-    } else {
-      router.push(`/results?score=${quizState.score}&total=${dailyQuestions.length}&rating=${newElo}&oldRating=${quizState.eloRating}`);
-      return;
+    // Redirect to results if it's the last question
+    if (quizState.currentQuestionIndex >= dailyQuestions.length - 1) {
+      router.push(`/results?score=${quizState.score + (isCorrect ? 1 : 0)}&total=${dailyQuestions.length}&rating=${newElo}&oldRating=${quizState.eloRating}`);
     }
   };
 
