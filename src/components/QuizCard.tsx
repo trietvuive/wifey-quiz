@@ -3,6 +3,7 @@ import { Question } from '@/types';
 import { useState } from 'react';
 import RatingChange from './RatingChange';
 import QuizTimer from './QuizTimer';
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 interface QuizCardProps {
   question: Question;
@@ -32,17 +33,41 @@ export default function QuizCard({ question, onAnswer }: QuizCardProps) {
     }
   };
 
+  const config = {
+    tex2jax: {
+      inlineMath: [["$", "$"]],
+      displayMath: [["$$", "$$"]],
+      processEscapes: true,
+    }
+  };
+
   return (
     <div className="quiz-card relative">
       <QuizTimer onTimeUp={handleTimeUp} questionId={question.id} seconds={120} />
       {ratingChange && (
         <RatingChange oldRating={ratingChange.old} newRating={ratingChange.new} />
       )}
-      <h2 className="text-2xl font-bold mb-2">{question.question}</h2>
+      <h2 className="text-2xl font-bold mb-2">
+        <MathJaxContext config={config} version={2}>
+          <MathJax
+            dangerouslySetInnerHTML={{
+              __html: question.question.replace(/\n/g, '<br />'),
+            }}
+          />
+        </MathJaxContext>
+      </h2>
       <div className="flex items-center gap-2 mb-6">
         <span className="text-sm text-gray-500">GMAT Level:</span>
         <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
           {question.difficulty}+ GMAT
+        </span>
+        <span className="text-sm text-gray-500">Category:</span>
+        <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+          {question.category}
+        </span>
+        <span className="text-sm text-gray-500">Tags:</span>
+        <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+          {question.tags?.length ? question.tags?.join(",") : "None" }
         </span>
       </div>
       {question.image && (
